@@ -234,5 +234,41 @@ void generic_poll_i2c_device (uint8_t addr, uint8_t *bytes, uint8_t bytes_num) {
     }
 }
 
+bool scan_i2c_devices(uint8_t *addr) {
+
+  byte error, address;
+  int nDevices;
+
+  for(address = 1; address < 127; address++ ) {
+    // The i2c_scanner uses the return value of
+    // the Write.endTransmisstion to see if
+    // a device did acknowledge to the address.
+    Wire.beginTransmission(address);
+    error = Wire.endTransmission();
+
+    if (error == 0) {
+#if (defined DEBUG)             
+      if (address<16) 
+        Serial.print("0");
+      Serial.print(address,HEX);
+      Serial.println("  !");
+#endif      
+      *addr = address;
+      return true;
+      nDevices++;
+    } else if (error==4) {
+
+#if (defined DEBUG)      
+      Serial.print("Unknown error at address 0x");
+      if (address<16) 
+        Serial.print("0");
+      Serial.println(address,HEX);
+#endif
+    }    
+  }
+  *addr = 0;
+  return false;
+}
+
 
   
