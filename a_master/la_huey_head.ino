@@ -76,15 +76,6 @@
     parse_button_array_hh(ba1,8,5,0,mod,1);
   }
 
-//  void printBits(byte myByte){
-//   for(byte mask = 0x80; mask; mask >>= 1){
-//     if(mask  & myByte)
-//         Serial.print('1');
-//     else
-//         Serial.print('0');
-//   }
-//  }
-
   uint8_t extract_modesw_val(uint8_t b) {
     bool v = (b >> (HUEY_HEAD_MODESWITCH_BTN - 1)) & 1;
     bool v1 = (b >> (HUEY_HEAD_MODESWITCH_BTN)) & 1;
@@ -112,29 +103,17 @@
       bool v = (b >> i) & 1;
       
       if (v != g_hh_lastButtonState[i + start_btn + modifier]) {
-        if (BUTTON_PRESS_ON_THROTTLE_CUTOFF == 1) {
-          if ((i != HUEY_HEAD_IDLE_REL_BTN - 1) && (idle_rel_btn != 1)){
-            j_hh.setButton(i + start_btn + modifier, v); 
-            //      Serial.print("HS "); 
-//      Serial.print(i); 
-//      Serial.print(" sb "); 
-//      Serial.print(start_btn);
-//      Serial.print(" v "); 
-//      Serial.print(v);
-//      Serial.println("");   
-          } else {
-            j_hh.setButton(i + start_btn + modifier, v);
+        if (BUTTON_PRESS_ON_THROTTLE_CUTOFF == 1 &&
+            !((i != HUEY_HEAD_IDLE_REL_BTN - 1) && (idle_rel_btn != 1)) {
+                       
             g_idle_rel_btn_pressed = v;
             g_idle_rel_btn_pressed_new[0]=v;
             g_idle_rel_btn_pressed_new[1]=v;
             g_idle_rel_btn_pressed_new[2]=v;
             g_tl_idle_rel_btn_pressed[0] = v;
-            g_tl_idle_rel_btn_pressed[1] = v;
-            
-          }
-        } else {
-          j_hh.setButton(i + start_btn + modifier, v);
-        }
+            g_tl_idle_rel_btn_pressed[1] = v;          
+        }      
+        j_hh.setButton(i + start_btn + modifier, v);
       }
       g_hh_lastButtonState[i + start_btn + modifier] = v;
     }
