@@ -19,6 +19,7 @@ import io
 import os
 import re
 import tempfile
+import pathlib
 
 import click
 
@@ -236,12 +237,11 @@ def FindInoNodes(env):
     nodes = []
     
     if src_filter:
-        pathnames=set()
-        [pathnames.add(os.path.join(src_dir,os.path.dirname(i))) for i in env.MatchSourceFiles(src_dir,src_filter,["ino"])]
-        [nodes.extend(env.Glob(os.path.join(src_dir,pathname,"*.ino"))) for pathname in pathnames]
+        for sourceFile in env.MatchSourceFiles(src_dir,src_filter,["ino"]):
+            nodes.extend(env.Glob(os.path.join(src_dir,sourceFile)))
     else:
-        nodes=env.Glob(os.path.join(src_dir, "*.ino"))    
-   
+        nodes.extend(env.Glob(os.path.join(src_dir, "*.ino")))
+  
     return nodes
 
 
