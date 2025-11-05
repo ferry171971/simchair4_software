@@ -234,10 +234,10 @@ void generic_poll_i2c_device (uint8_t addr, uint8_t *bytes, uint8_t bytes_num) {
     }
 }
 
-bool scan_i2c_devices(uint8_t *addr) {
+uint8_t scan_i2c_devices(uint8_t *addr) {
 
   byte error, address;
-  int nDevices;
+  uint8_t nDevices = 0;
 
   for(address = 1; address < 127; address++ ) {
     // The i2c_scanner uses the return value of
@@ -253,9 +253,7 @@ bool scan_i2c_devices(uint8_t *addr) {
       Serial.print(address,HEX);
       Serial.println("  !");
 #endif      
-      *addr = address;
-      return true;
-      nDevices++;
+      *(addr+nDevices++) = address;      
     } else if (error==4) {
 
 #if (defined DEBUG)      
@@ -265,9 +263,8 @@ bool scan_i2c_devices(uint8_t *addr) {
       Serial.println(address,HEX);
 #endif
     }    
-  }
-  *addr = 0;
-  return false;
+  }  
+  return nDevices;
 }
 
 
