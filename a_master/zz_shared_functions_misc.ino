@@ -242,17 +242,17 @@ bool I2cCheckDevice(uint8_t addr) {
 
   #if (defined DEBUG)
     if (error == 0) {
-        if (address<16) 
+        if (addr<16) 
           Serial.print("0");
-        Serial.print(address,HEX);
+        Serial.print(addr,HEX);
         Serial.println("  !");
     } else {
       Serial.print("Unknown error at address 0x");
-      if (address<16) 
+      if (addr<16) 
         Serial.print("0");
-      Serial.print(address,HEX);
+      Serial.print(addr,HEX);
       Serial.print(" code : ");
-      Serial.prinln(error);
+      Serial.println(error);
     }
   #endif
 
