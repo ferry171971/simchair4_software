@@ -15,7 +15,7 @@ void setup_vrmax_coll_head_extension(){
 
 void read_bytes_from_vrmax_panel(byte* but0, byte* but1, byte* but2){
 //  uint8_t but0,but1,but2;
-  Wire.requestFrom(22, 5); //radio panel - top left encoder
+  Wire.requestFrom(VRMAX_AB412_COLL_HEAD_B_I2C_ADDRESS, 5); //radio panel - top left encoder
   while (Wire.available()){
     byte b1 = Wire.read(); // buttons #1
     byte b2 = Wire.read(); // buttons #2
@@ -41,7 +41,7 @@ void read_bytes_from_vrmax_panel(byte* but0, byte* but1, byte* but2){
     e_state[2].val = b5;
   }
 
-  Wire.requestFrom(21, 5); // side panel + radio panel top left encoder
+  Wire.requestFrom(VRMAX_AB412_COLL_HEAD_A_I2C_ADDRESS, 5); // side panel + radio panel top left encoder
   while (Wire.available()){
     byte b1 = Wire.read(); // buttons
     byte b2 = Wire.read(); // encoder 1
