@@ -267,7 +267,7 @@ uint8_t scan_i2c_devices(uint8_t *addr) {
     // The i2c_scanner uses the return value of
     // the Write.endTransmisstion to see if
     // a device did acknowledge to the address.
-    if (i2cCheckDevice(address)) {
+    if (I2cCheckDevice(address)) {
       *(addr+nDevices++) = address;      
     }
   }  
